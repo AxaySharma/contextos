@@ -8,7 +8,7 @@ export async function GET() {
   const exists = fs.existsSync(docsDir);
   const files = exists ? fs.readdirSync(docsDir) : [];
   
-  let documents = [];
+  let documents: any[] = [];
   try {
     documents = await getDocuments();
   } catch (e) {
