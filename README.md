@@ -149,7 +149,7 @@ You'll be redirected to sign in with Google. Use an account that matches your `A
 4. Change `NEXTAUTH_URL` to your Vercel deployment URL (e.g., `https://contextos.vercel.app`)
 5. In Google Cloud Console, add your Vercel URL to the authorized redirect URIs:
    `https://your-app.vercel.app/api/auth/callback/google`
-6. Deploy!
+6. Deploy!!
 
 ---
 
