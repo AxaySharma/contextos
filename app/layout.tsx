@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "ContextOS | Document Intelligence",

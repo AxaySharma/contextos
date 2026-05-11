@@ -12,7 +12,7 @@
 
 import { GoogleGenerativeAI, Content } from "@google/generative-ai";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 // Initialize the Gemini SDK with our API key
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string, {
