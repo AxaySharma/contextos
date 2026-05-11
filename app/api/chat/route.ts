@@ -15,9 +15,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 // Initialize the Gemini SDK with our API key
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string, {
-  apiVersion: "v1",
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -119,7 +117,7 @@ export async function POST(request: Request): Promise<Response> {
     // We use the system instruction to pass the full document context.
     // Gemini 2.5 Flash supports up to 1M tokens, so full documents fit easily.
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       systemInstruction: buildSystemPrompt(documentTitle, documentText),
       generationConfig: {
         temperature: 0.1,        // Slightly lower temperature for even more precision
