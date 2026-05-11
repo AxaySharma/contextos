@@ -11,11 +11,23 @@ import { Document } from './documents';
  * and text contents using pdf-parse, and returns a list of Document objects.
  */
 export async function getDocuments(): Promise<Document[]> {
-  const docsDir = path.join(process.cwd(), 'public', 'docs');
-  console.log('[pdf-service] docsDir:', docsDir);
+  // 1. Try process.cwd() / public / docs (Local & standard Vercel)
+  let docsDir = path.join(process.cwd(), 'public', 'docs');
   
   if (!fs.existsSync(docsDir)) {
-    console.log('[pdf-service] docsDir does not exist');
+    // 2. Try relative path (sometimes needed in serverless environments)
+    docsDir = path.resolve('./public/docs');
+  }
+
+  if (!fs.existsSync(docsDir)) {
+    // 3. Last resort: just 'public/docs'
+    docsDir = 'public/docs';
+  }
+
+  console.log('[pdf-service] Final docsDir resolved to:', docsDir);
+  
+  if (!fs.existsSync(docsDir)) {
+    console.warn('[pdf-service] CRITICAL: docsDir does not exist at any resolved path');
     return [];
   }
 
