@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Required for react-pdf to work in Next.js App Router
+  // Force Next.js to include the documents-store in the standalone build/Vercel functions
+  output: 'standalone',
+  experimental: {
+    outputFileTracingIncludes: {
+      '/': ['./documents-store/**/*'],
+    },
+  },
   webpack: (config) => {
     config.resolve.alias.canvas = false;
-    config.resolve.alias.encoding = false;
     return config;
   },
 };
