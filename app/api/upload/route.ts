@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const docsDir = path.join(process.cwd(), 'public', 'docs');
+    const docsDir = path.join(process.cwd(), 'documents-store');
 
     if (!fs.existsSync(docsDir)) {
       fs.mkdirSync(docsDir, { recursive: true });

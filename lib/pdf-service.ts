@@ -11,23 +11,13 @@ import { Document } from './documents';
  * and text contents using pdf-parse, and returns a list of Document objects.
  */
 export async function getDocuments(): Promise<Document[]> {
-  // 1. Try process.cwd() / public / docs (Local & standard Vercel)
-  let docsDir = path.join(process.cwd(), 'public', 'docs');
+  // Use documents-store at the root (works reliably on Vercel)
+  const docsDir = path.join(process.cwd(), 'documents-store');
+  
+  console.log('[pdf-service] docsDir resolved to:', docsDir);
   
   if (!fs.existsSync(docsDir)) {
-    // 2. Try relative path (sometimes needed in serverless environments)
-    docsDir = path.resolve('./public/docs');
-  }
-
-  if (!fs.existsSync(docsDir)) {
-    // 3. Last resort: just 'public/docs'
-    docsDir = 'public/docs';
-  }
-
-  console.log('[pdf-service] Final docsDir resolved to:', docsDir);
-  
-  if (!fs.existsSync(docsDir)) {
-    console.warn('[pdf-service] CRITICAL: docsDir does not exist at any resolved path');
+    console.warn('[pdf-service] documents-store folder does not exist at root');
     return [];
   }
 
@@ -81,7 +71,7 @@ export async function getDocuments(): Promise<Document[]> {
           category: category,
           dateAdded: new Date().toISOString().split('T')[0],
           pageCount: data.numpages,
-          pdfPath: `/docs/${file}`,
+          pdfPath: `/api/view-pdf?file=${encodeURIComponent(file)}`,
           extractedText: data.text,
         };
       } catch (error) {
@@ -93,7 +83,7 @@ export async function getDocuments(): Promise<Document[]> {
           category: "Advisory",
           dateAdded: new Date().toISOString().split('T')[0],
           pageCount: 0,
-          pdfPath: `/docs/${file}`,
+          pdfPath: `/api/view-pdf?file=${encodeURIComponent(file)}`,
           extractedText: "",
         };
       }
